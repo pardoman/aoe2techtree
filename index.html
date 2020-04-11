@@ -60,11 +60,34 @@
             </div>
             <div class="info">
                 <div class="info__margin">
-                    <!-- Consider updating the UI to display flags instead of text -->
-                    [<a href="#" title="English" data-lang="en">en</a>]
-                    [<a href="#" title="Spanish" data-lang="es">es</a>]
-                    [<a href="#" title="French"  data-lang="fr">fr</a>]
-                    [<a href="#" title="Chinese" data-lang="zh">zh</a>]
+
+
+                    <div id="lang-dropdown">
+                      <img id="currentLanguage" class="iconflag" src="data/locales/en/icon.png">
+                      <div id="lang-dropdown-content">
+                        <!-- Flags from: https://github.com/gosquared/flags/tree/master/flags/flags/flat/24 -->
+                        <img class="iconflag" src="data/locales/br/icon.png">
+                        <img class="iconflag" src="data/locales/de/icon.png">
+                        <img class="iconflag" src="data/locales/en/icon.png">
+                        <img class="iconflag" src="data/locales/es/icon.png">
+                        <br>
+                        <img class="iconflag" src="data/locales/fr/icon.png">
+                        <img class="iconflag" src="data/locales/hi/icon.png">
+                        <img class="iconflag" src="data/locales/it/icon.png">
+                        <img class="iconflag" src="data/locales/jp/icon.png">
+                        <br>
+                        <img class="iconflag" src="data/locales/ko/icon.png">
+                        <img class="iconflag" src="data/locales/ms/icon.png">
+                        <img class="iconflag" src="data/locales/mx/icon.png">
+                        <img class="iconflag" src="data/locales/ru/icon.png">
+                        <br>
+                        <img class="iconflag" src="data/locales/tr/icon.png">
+                        <img class="iconflag" src="data/locales/tw/icon.png">
+                        <img class="iconflag" src="data/locales/vi/icon.png">
+                        <img class="iconflag" src="data/locales/zh/icon.png">
+                      </div>
+                    </div>
+
                 </div>
                 <div class="info__margin">
                     Version: Age of Empires II DE Update <a href="https://www.ageofempires.com/news/aoe2de-update-36202/" target="_blank" title="Changelog">36202</a>
@@ -648,6 +671,23 @@
                 setLanguage(langCode);
             });
         }
+
+        const langDropdown = document.getElementById('currentLanguage');
+        const langContent = document.getElementById('lang-dropdown-content');
+        langDropdown.addEventListener('click', event => {
+            langContent.classList.toggle('visible');
+        });
+
+        langContent.addEventListener('click', event => {
+            if (event.target.nodeName !== "IMG")
+                return;
+            const imgSrc = event.target.getAttribute('src');
+            const langCode = imgSrc.split('/')[2];
+            setLanguage(langCode);
+            langDropdown.src = imgSrc;
+            langContent.classList.remove('visible');
+        })
+
 
         // Both i18next and i18nextXHRBackend are global variables
         // injected by their respective <script> tags.

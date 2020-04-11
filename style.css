@@ -223,9 +223,33 @@ hr:before {
     stroke-width: 3px;
 }
 
+.iconflag {
+    cursor: pointer;
+}
+
+#lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+#lang-dropdown-content {
+    display: none;
+    background-color: #8a745a;
+    width: 116px;
+    padding: 2px 6px;
+    position: absolute;
+    z-index: 1;
+    transform: translate(33px, -111px);
+}
+
+#lang-dropdown-content.visible {
+    display: block;
+}
+
 @media (max-width: 900px) {
     #techtree {
         width: auto;
         overflow-x: auto;
     }
 }
+ 
