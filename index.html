@@ -65,28 +65,31 @@
                     <div id="lang-dropdown">
                       <img id="currentLanguage" class="iconflag" src="data/locales/en/icon.png">
                       <div id="lang-dropdown-content">
+                        <!-- "Language supported" in the same order as they appear in Microsoft's product page:
+                             https://www.microsoft.com/en-us/p/age-of-empires-ii-definitive-edition/9njdd0jgpp2q -->
                         <!-- Flags from: https://github.com/gosquared/flags/tree/master/flags/flags/flat/24 -->
-                        <img class="iconflag" src="data/locales/br/icon.png">
-                        <img class="iconflag" src="data/locales/de/icon.png">
-                        <img class="iconflag" src="data/locales/en/icon.png">
-                        <img class="iconflag" src="data/locales/es/icon.png">
+                        <img class="iconflag" src="data/locales/en/icon.png" data-hint="English (United States)">
+                        <img class="iconflag" src="data/locales/zh/icon.png" data-hint="中文(中国)">
+                        <img class="iconflag" src="data/locales/tw/icon.png" data-hint="中文(香港特別行政區)">
+                        <img class="iconflag" src="data/locales/fr/icon.png" data-hint="Français (France)">
                         <br>
-                        <img class="iconflag" src="data/locales/fr/icon.png">
-                        <img class="iconflag" src="data/locales/hi/icon.png">
-                        <img class="iconflag" src="data/locales/it/icon.png">
-                        <img class="iconflag" src="data/locales/jp/icon.png">
+                        <img class="iconflag" src="data/locales/de/icon.png" data-hint="Deutsch (Deutschland)">
+                        <img class="iconflag" src="data/locales/hi/icon.png" data-hint="हिंदी (भारत)">
+                        <img class="iconflag" src="data/locales/it/icon.png" data-hint="Italiano (Italia)">
+                        <img class="iconflag" src="data/locales/jp/icon.png" data-hint="日本語 (日本)">
                         <br>
-                        <img class="iconflag" src="data/locales/ko/icon.png">
-                        <img class="iconflag" src="data/locales/ms/icon.png">
-                        <img class="iconflag" src="data/locales/mx/icon.png">
-                        <img class="iconflag" src="data/locales/ru/icon.png">
+                        <img class="iconflag" src="data/locales/ko/icon.png" data-hint="한국어(대한민국)">
+                        <img class="iconflag" src="data/locales/ms/icon.png" data-hint="Bahasa Melayu (Malaysia)">
+                        <img class="iconflag" src="data/locales/ru/icon.png" data-hint="Русский (Россия)">
+                        <img class="iconflag" src="data/locales/es/icon.png" data-hint="Español (España, Internacional)">
                         <br>
-                        <img class="iconflag" src="data/locales/tr/icon.png">
-                        <img class="iconflag" src="data/locales/tw/icon.png">
-                        <img class="iconflag" src="data/locales/vi/icon.png">
-                        <img class="iconflag" src="data/locales/zh/icon.png">
+                        <img class="iconflag" src="data/locales/mx/icon.png" data-hint="Español (México)">
+                        <img class="iconflag" src="data/locales/tr/icon.png" data-hint="Türkçe (Türkiye)">
+                        <img class="iconflag" src="data/locales/vi/icon.png" data-hint="Tiếng Việt (Việt Nam)">
+                        <img class="iconflag" src="data/locales/br/icon.png" data-hint="Português (Brasil)">
                       </div>
                     </div>
+                    <span id="lang-hint"></span>
 
                 </div>
                 <div class="info__margin">
@@ -662,18 +665,10 @@
     function initLocalization(callback) {
 
         // Add click events to localization buttons.
-        var langButtons = document.querySelectorAll('[data-lang]');
-        for (var i=0; i<langButtons.length; ++i) {
-            langButtons[i].addEventListener('click', (event) => {
-                event.preventDefault();
-                const langCode = event.target.getAttribute('data-lang');
-                // Avoid setting the same language again...
-                setLanguage(langCode);
-            });
-        }
-
         const langDropdown = document.getElementById('currentLanguage');
         const langContent = document.getElementById('lang-dropdown-content');
+        const langHint = document.getElementById('lang-hint');
+
         langDropdown.addEventListener('click', event => {
             langContent.classList.toggle('visible');
         });
@@ -685,8 +680,20 @@
             const langCode = imgSrc.split('/')[2];
             setLanguage(langCode);
             langDropdown.src = imgSrc;
+            langHint.innerText = '';
             langContent.classList.remove('visible');
-        })
+        });
+
+        langContent.addEventListener('mouseover', event => {
+            if (event.target.nodeName !== "IMG")
+                return;
+            langHint.innerText = event.target.getAttribute('data-hint');
+        });
+        langContent.addEventListener('mouseout', event => {
+            if (event.target.nodeName !== "IMG")
+                return;
+            langHint.innerText = '';
+        });
 
 
         // Both i18next and i18nextXHRBackend are global variables

@@ -239,11 +239,16 @@ hr:before {
     padding: 2px 6px;
     position: absolute;
     z-index: 1;
-    transform: translate(33px, -111px);
+    transform: translate(30px, -140px);
+    user-select: none;
 }
 
 #lang-dropdown-content.visible {
     display: block;
+}
+
+#lang-hint {
+    vertical-align: super;
 }
 
 @media (max-width: 900px) {
