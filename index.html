@@ -63,7 +63,7 @@
 
 
                     <div id="lang-dropdown">
-                      <img id="currentLanguage" class="iconflag" src="data/locales/en/icon.png">
+                      <img id="currentLanguage" class="iconflag" src="">
                       <div id="lang-dropdown-content">
                         <!-- "Language supported" in the same order as they appear in Microsoft's product page:
                              https://www.microsoft.com/en-us/p/age-of-empires-ii-definitive-edition/9njdd0jgpp2q -->
@@ -664,6 +664,9 @@
      */
     function initLocalization(callback) {
 
+        // get language from localStorage, or default to English.
+        const initLocale = localStorage.getItem('user-locale') || 'en';
+
         // Add click events to localization buttons.
         const langDropdown = document.getElementById('currentLanguage');
         const langContent = document.getElementById('lang-dropdown-content');
@@ -678,10 +681,10 @@
                 return;
             const imgSrc = event.target.getAttribute('src');
             const langCode = imgSrc.split('/')[2];
-            setLanguage(langCode);
-            langDropdown.src = imgSrc;
             langHint.innerText = '';
             langContent.classList.remove('visible');
+            localStorage.setItem('user-locale', langCode); // Only store when UI is involved.
+            setLanguage(langCode);
         });
 
         langContent.addEventListener('mouseover', event => {
@@ -702,7 +705,7 @@
             .use(i18nextXHRBackend)
             .init({
                 // https://www.i18next.com/overview/configuration-options
-                lng: 'en',
+                lng: initLocale,
                 fallbackLng: 'en',
                 ns: ['common', 'strings'],
                 defaultNS: 'common',
@@ -751,6 +754,11 @@
         // Debut output
         console.log('Language:', i18next.language);
 
+        // Update icon
+        const langDropdown = document.getElementById('currentLanguage');
+        langDropdown.src = 'data/locales/' + i18next.language + '/icon.png';
+
+        // Update HTML text nodes
         var elements = document.querySelectorAll('[data-i18n]');
         for (var i=0, len=elements.length; i<len; ++i) {
 
