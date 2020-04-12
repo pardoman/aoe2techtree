@@ -185,10 +185,10 @@
 
         let hash = window.location.hash.substr(1);
         let capitalisedHash = hash.substring(0, 1).toUpperCase() + hash.substring(1).toLowerCase();
-        if (capitalisedHash in data.civ_names) {
-            // This code section works only in English locale,
-            // which is OKAY during application's initialiation.
-            document.getElementById('civselect').value = capitalisedHash;
+        const civHashIndex = Object.keys(data.civ_names).indexOf(capitalisedHash)
+        if (civHashIndex !== -1) {
+            document.getElementById('civselect').selectedIndex = civHashIndex;
+            //document.getElementById('civselect').value = capitalisedHash;
         }
 
         const draw = SVG('techtree').size(tree.width, tree.height)
